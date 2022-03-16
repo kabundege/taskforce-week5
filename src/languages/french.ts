@@ -1,5 +1,7 @@
 export default {
-    brandName:"Convoiturage",
-    slog:"Déplacez-vous ou gagnez en Partageant votre trajet avec Votre communauté",
-    googleLabel:"Continuer avec Google"
+    addItem:'Ajouter Un Item',
+    create:'Créer',
+    new:'Nouvelle Liste D\'atâches',
+    title:"Titre De La Tâche",
+    slog:'Liste D\'tâche'
 }

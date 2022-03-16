@@ -10,7 +10,9 @@ import { useFormik } from 'formik';
 import InputField from '../components/InputField'
 import { getColor } from '../utils/getColor'
 import { uuid } from '../utils/uuid'
-import { Swipeable } from 'react-native-gesture-handler'
+import gesturehandler from 'react-native-gesture-handler'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
+import lang from '../languages'
 
 const initialValues = {
   description:''
@@ -25,6 +27,49 @@ const swipeFromRightOpen = () => {
   Alert.alert('Swipe from right');
 };
 
+const LeftSwipeActions = () => {
+  return (
+    <View
+      style={{ backgroundColor: '#ccffbd', justifyContent: 'center' }}
+    >
+      <Text
+        style={{
+          color: '#40394a',
+          paddingHorizontal: 10,
+          fontWeight: '600',
+          paddingVertical: 20,
+        }}
+      >
+        Bookmark
+      </Text>
+    </View>
+  );
+};
+
+const rightSwipeActions = () => {
+  return (
+    <View
+      style={{
+        backgroundColor: '#ff8303',
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+      }}
+    >
+      <Text
+        style={{
+          color: '#1b1a17',
+          paddingHorizontal: 10,
+          fontWeight: '600',
+          paddingVertical: 20,
+        }}
+      >
+        Delete
+      </Text>
+    </View>
+  );
+};
+
+
 const EditTodoScreen = () => {
   const [ todo,setTodo ] = useState<Todo|undefined>()
   const { handlerContext,todos } = useContext(StoreContext)
@@ -34,48 +79,6 @@ const EditTodoScreen = () => {
   const { id } = route.params;
 
   useEffect(()=> setTodo(todos?.find(one => one.id === id )) ,[todos])
-
-  const LeftSwipeActions = () => {
-    return (
-      <View
-        style={{ flex: 1, backgroundColor: '#ccffbd', justifyContent: 'center' }}
-      >
-        <Text
-          style={{
-            color: '#40394a',
-            paddingHorizontal: 10,
-            fontWeight: '600',
-            paddingVertical: 20,
-          }}
-        >
-          Bookmark
-        </Text>
-      </View>
-    );
-  };
-
-  const rightSwipeActions = () => {
-    return (
-      <View
-        style={{
-          backgroundColor: '#ff8303',
-          justifyContent: 'center',
-          alignItems: 'flex-end',
-        }}
-      >
-        <Text
-          style={{
-            color: '#1b1a17',
-            paddingHorizontal: 10,
-            fontWeight: '600',
-            paddingVertical: 20,
-          }}
-        >
-          Delete
-        </Text>
-      </View>
-    );
-  };
 
   const { values,handleChange,handleSubmit,resetForm } = useFormik({
     initialValues,
@@ -195,7 +198,7 @@ const EditTodoScreen = () => {
         <View style={styles.InputWrapper}>
           <InputField 
             value={values.description} 
-            placeholder="Todo Title" 
+            placeholder={lang.title} 
             onChange={handleChange('description')}
           />
           <TouchableOpacity onPress={handleSubmit} style={[styles.plusWrapper,{ backgroundColor: todo.color }]}>

@@ -10,6 +10,7 @@ import InputField from '../components/InputField'
 import { getColor } from '../utils/getColor'
 import Button from '../components/Button'
 import { uuid } from '../utils/uuid'
+import lang from '../languages'
 
 const initialValues = {
   title:''
@@ -68,10 +69,10 @@ const NewTodoScreen = () => {
           </TouchableOpacity>
         </SafeAreaView>
         <View style={styles.container}>
-          <Text style={styles.mainText}>Create Todo List</Text>
+          <Text style={styles.mainText}>{lang.new}</Text>
           <InputField 
             value={values.title} 
-            placeholder="Todo Title" 
+            placeholder={lang.title} 
             onChange={handleChange('title')}
           />
           <View style={[globalStyles.flexer,styles.cubeWrapper]}>
@@ -87,7 +88,7 @@ const NewTodoScreen = () => {
             }
           </View>
           <Button 
-            label="Create !"
+            label={`${lang.create} !`}
             success={success}
             BtnStyle={{ backgroundColor: todo.color || colors.primary }}
             onPress={handleSubmit}

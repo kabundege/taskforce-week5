@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import randomColor from 'randomcolor'
-import { borderRadius, colors, fonts, globalStyles, height, Spacing, textSize, width } from '../constants'
+import { borderRadius, colors, fonts, globalStyles, height, Spacing, textSize, width } from '../../constants'
 import React from 'react'
-import { RootStackParamList, Todo } from '../../types'
+import { RootStackParamList, Todo } from '../../../types'
 import LinearGradient from 'react-native-linear-gradient'
 import { useNavigation } from '@react-navigation/native'
 

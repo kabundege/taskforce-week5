@@ -1,5 +1,7 @@
 export default {
-    brandName:"Convoiturage",
-    slog:"Move or earn by sharing your journey with your community",
-    googleLabel:"Continue with Google"
+    addItem:'add item',
+    create:'create',
+    new:'Create Todo List',
+    title:'Todod Title',
+    slog:'Todo List'
 }

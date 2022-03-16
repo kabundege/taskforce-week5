@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleProps } from 'react-native-reanimated'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { StyleSheet,  Text, TouchableOpacity, View } from 'react-native'
-import { borderRadius, colors, globalStyles, Spacing, textSize } from '../constants'
+import { borderRadius, colors, globalStyles, Spacing, textSize } from '../../constants'
 
 interface Props {
   label: string,

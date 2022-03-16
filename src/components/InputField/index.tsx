@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, View } from 'react-native'
 import React from 'react'
-import { colors, globalStyles } from '../constants'
+import { colors, globalStyles } from '../../constants'
 
 interface Props {
     value: string,

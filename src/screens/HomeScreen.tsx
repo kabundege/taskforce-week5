@@ -6,6 +6,7 @@ import { StoreContext } from '../context'
 import TodoCard from '../components/TodoCard'
 import { RootStackParamList, Todo } from '../../types'
 import { useNavigation } from '@react-navigation/native'
+import lang from '../languages'
 
 
 const TodoStyle = (props:FlatListProps<Todo> | Readonly<FlatListProps<Todo>>) => (
@@ -27,8 +28,8 @@ const HomeScreen= () => {
       <StatusBar barStyle="dark-content" backgroundColor={colors.baseBg} />
       <View style={styles.header}>
         <View style={styles.textWrapper}>
-          <Text style={styles.todoLabel}>Todo</Text>
-          <Text style={styles.listLabel}>Lists</Text>
+          <Text style={styles.todoLabel}>{lang.slog.split(" ")[0]}</Text>
+          <Text style={styles.listLabel}>{lang.slog.split(" ")[1]}</Text>
         </View>
         <View style={styles.hr} />
       </View>
@@ -39,7 +40,7 @@ const HomeScreen= () => {
         <View style={styles.plusWrapper}>
           <AntDesign name="plus" size={textSize.M} color={colors.primary} />
         </View>
-        <Text style={styles.add}>Add Item</Text>
+        <Text style={styles.add}>{lang.addItem}</Text>
       </TouchableOpacity>
       <View style={{ margin: Spacing*2 }} />
       <FlatList
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
   },
   textWrapper:{ 
     backgroundColor:colors.baseBg,
-    padding: width * 0.09,
+    padding: width * 0.07,
     ...globalStyles.flexer,
     position:'relative',
     zIndex:1,
