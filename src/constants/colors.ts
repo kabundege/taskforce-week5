@@ -1,6 +1,7 @@
 export default {
     baseBg:'#fff',
     darkBg:'#ccc',
+    error:'#ff0000',
     primary:"dodgerblue",
     lightPrimary:'#2F80ED',
     lightDark:'rgba(0,0,0,.5)',

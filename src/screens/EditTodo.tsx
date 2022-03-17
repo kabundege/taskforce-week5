@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import Feather from 'react-native-vector-icons/Feather'
 import { Alert, Keyboard, SafeAreaView, StyleSheet, FlatList, Text, TouchableOpacity, TouchableWithoutFeedback, View, ActivityIndicator } from 'react-native'
 import { borderRadius, colors, fonts, globalStyles, Spacing, textSize, width } from '../constants'
 import { StoreContext } from '../context'
@@ -8,67 +7,13 @@ import { RootStackParamList, Task, Todo } from '../../types'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useFormik } from 'formik';
 import InputField from '../components/InputField'
-import { getColor } from '../utils/getColor'
+import TaskView from '../components/Task'
 import { uuid } from '../utils/uuid'
-import gesturehandler from 'react-native-gesture-handler'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
 import lang from '../languages'
 
 const initialValues = {
   description:''
 }
-
-let RandomColors = Array.from({ length: 7 },() => getColor())
-
-const swipeFromLeftOpen = () => {
-  Alert.alert('Swipe from left');
-};
-const swipeFromRightOpen = () => {
-  Alert.alert('Swipe from right');
-};
-
-const LeftSwipeActions = () => {
-  return (
-    <View
-      style={{ backgroundColor: '#ccffbd', justifyContent: 'center' }}
-    >
-      <Text
-        style={{
-          color: '#40394a',
-          paddingHorizontal: 10,
-          fontWeight: '600',
-          paddingVertical: 20,
-        }}
-      >
-        Bookmark
-      </Text>
-    </View>
-  );
-};
-
-const rightSwipeActions = () => {
-  return (
-    <View
-      style={{
-        backgroundColor: '#ff8303',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-      }}
-    >
-      <Text
-        style={{
-          color: '#1b1a17',
-          paddingHorizontal: 10,
-          fontWeight: '600',
-          paddingVertical: 20,
-        }}
-      >
-        Delete
-      </Text>
-    </View>
-  );
-};
-
 
 const EditTodoScreen = () => {
   const [ todo,setTodo ] = useState<Todo|undefined>()
@@ -141,59 +86,7 @@ const EditTodoScreen = () => {
         <FlatList 
           data={todo.tasks}
           keyExtractor={el => el.id}
-          renderItem={({ item }) => {
-
-            const onPress = () => {
-              let remaining=0,completed=0;
-              const newTodo = todo.tasks?.map( one => {
-                if(one.id === item.id){
-
-                  if(!item.isCompleted){
-                    completed += 1
-                  }else{
-                    remaining += 1
-                  }
-
-                  return { ...one, isCompleted: !item.isCompleted }
-                }
-                else {
-                  if(one.isCompleted){
-                    completed += 1
-                  }else{
-                    remaining += 1
-                  }  
-                  return one
-                }
-              })
-
-              const newTodos = todos?.map(one => one.id === todo.id ? { ...one,remaining,completed,tasks:newTodo } : one)
-
-              if(handlerContext)
-              handlerContext('todos',newTodos)
-            }
-
-            return (
-              <Swipeable
-                renderLeftActions={LeftSwipeActions}
-                renderRightActions={rightSwipeActions}
-                onSwipeableRightOpen={swipeFromRightOpen}
-                onSwipeableLeftOpen={swipeFromLeftOpen} 
-              >
-                <View style={styles.TaskWrapper}>
-                  <TouchableOpacity onPress={onPress} >
-                    {
-                      item.isCompleted ?
-                        <AntDesign name="checksquare" size={24} color={todo.color} />:
-                        <Feather name="square" size={24} color={colors.dimeText} />
-                    }
-                  </TouchableOpacity>
-                  <Text numberOfLines={1} style={[styles.taskDesc,{ opacity: item.isCompleted ? 0.5 : 1 }]}>
-                    {item.description}
-                  </Text>
-                </View>
-              </Swipeable>
-            )
-          }}
+          renderItem={({ item }) => <TaskView item={item} todo={todo} /> }
         />
         <View style={styles.InputWrapper}>
           <InputField 
@@ -213,18 +106,6 @@ const EditTodoScreen = () => {
 export default EditTodoScreen
 
 const styles = StyleSheet.create({
-  taskDesc:{
-    fontFamily:fonts.SemiBold,
-    marginLeft:Spacing,
-    color:colors.mainText,
-    fontSize: textSize.M,
-    textTransform:"capitalize"
-  },
-  TaskWrapper:{
-    flexDirection:"row",
-    marginVertical:Spacing,
-    marginHorizontal:Spacing
-  },
   hr:{
     height:4,
     width:'100%'
