@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { FlatList, FlatListProps, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { borderRadius, colors, fonts, globalStyles, height, Spacing, textSize, width } from '../constants'
@@ -8,6 +8,12 @@ import { RootStackParamList, Todo } from '../../types'
 import { useNavigation } from '@react-navigation/native'
 import lang from '../languages'
 
+//
+import { createConnection, getRepository, Connection } from 'typeorm/browser';
+
+import { Todo as TodoEntity } from '../db/entities/Todos'
+import { Task as TaskEntity } from '../db/entities/Tasks'
+import { getColor } from '../utils/getColor'
 
 const TodoStyle = (props:FlatListProps<Todo> | Readonly<FlatListProps<Todo>>) => (
   /**
@@ -21,8 +27,53 @@ const TodoStyle = (props:FlatListProps<Todo> | Readonly<FlatListProps<Todo>>) =>
 )
 
 const HomeScreen= () => {
-  const { todos } = useContext(StoreContext)
+  const [defaultConnection, setconnection] = useState<Connection | null>(null);
+  const [ authors, setTodos] = useState<any>([]);
   const navigation = useNavigation<RootStackParamList>()
+  const { todos } = useContext(StoreContext)
+
+  const setupConnection = useCallback(async () => {
+    try {
+      const connection = await createConnection({
+        type: 'react-native',
+        database: 'test',
+        location: 'default',
+        logging: ['error', 'query', 'schema'],
+        synchronize: true,
+        entities: [TodoEntity, TaskEntity],
+      });
+      setconnection(connection);
+      getTodos();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const getTodos = useCallback(async () => {
+    const todoRepository = getRepository(TodoEntity);
+    let result = await todoRepository.find();
+    if (result.length === 0) {
+      const newTodo = new TodoEntity();
+      newTodo.color = '#999';
+      newTodo.title = 'Kill John Doe';
+      newTodo.remaining = 0;
+      newTodo.completed = 0;
+      newTodo.tasks = [];
+      newTodo.id = getColor();
+      await todoRepository.save(newTodo);
+      result = await todoRepository.find();
+    }    
+    setTodos(result);
+  }, []);
+
+  useEffect(() => {
+    if (!defaultConnection) {
+      setupConnection();
+    } else {
+      getTodos();
+    }
+  }, []);
+
   return (
     <View style={styles.screen}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.baseBg} />
@@ -111,7 +162,7 @@ const styles = StyleSheet.create({
   screen:{
     flex:1,
     height,
-    justifyContent:'space-around',
+    justifyContent:"space-evenly",
     backgroundColor:colors.baseBg
   }
 })

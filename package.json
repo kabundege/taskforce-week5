@@ -33,7 +33,7 @@
     "react-native-screens": "^3.13.1",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-vector-icons": "^9.1.0",
-    "typeorm": "^0.3.0"
+    "typeorm": "^0.2.45"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

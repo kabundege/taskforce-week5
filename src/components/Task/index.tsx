@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Feather from 'react-native-vector-icons/Feather'
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { colors, fonts, globalStyles, Spacing, textSize } from '../../constants'
+import { colors, fonts, globalStyles, Spacing, textSize, width } from '../../constants'
 import { Task, Todo } from '../../../types'
 import { GestureHandlerRootView, Swipeable, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { StoreContext } from '../../context'
@@ -101,7 +101,8 @@ export default TaskView
 
 const styles = StyleSheet.create({
     DeleteWrapper:{
-        backgroundColor: colors.error
+        backgroundColor: colors.error,
+        paddingHorizontal:width*0.05
     },
     taskDesc:{
       fontFamily:fonts.SemiBold,

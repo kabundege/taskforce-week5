@@ -1,4 +1,4 @@
-import { DatabaseParams, enablePromise, openDatabase, SQLiteDatabase, Transaction } from 'react-native-sqlite-storage'
+import { DatabaseParams, enablePromise, openDatabase, SQLiteDatabase } from 'react-native-sqlite-storage'
 import { Todo } from '../../types';
 
 const dbConfig: DatabaseParams = {
@@ -10,18 +10,25 @@ const dbConfig: DatabaseParams = {
 enablePromise(true);
 
 export const getDBConnection = async () => {
-    return openDatabase(dbConfig);
+    return openDatabase(dbConfig,()=>console.log('Sucessul +++++++'),(err)=>console.log("Error connecting ++++++ ",err));
 };
 
 export const createTable = async (db: SQLiteDatabase) => {
     // create table if not exists
-    const query= `CREATE TABLE IF NOT EXISTS todos (
+    const query= `DROP TABLE IF EXISTS todos,tasks CASCADE;
+    CREATE TABLE todos (
         id uuid NOT NULL PRIMARY KEY,
         title varchar(20) NOT NULL,
         remaining int,
         completed int,
-        tasks varchar(255),
         color varchar(20) NOT NULL
+      );
+    CREATE TABLE tasks (
+        id uuid NOT NULL PRIMARY KEY,
+        todoid uuid NOT NULL,
+        description varchar(255) NOT NULL,
+        iscompleted boolean default false,
+        FOREIGN KEY (todoid) REFERENCES todos(id) ON DELETE CASCADE
       );`
   
     await db.executeSql(query);

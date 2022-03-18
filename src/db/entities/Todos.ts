@@ -1,23 +1,31 @@
-// import {
-//     Entity,
-//     Column,
-//     PrimaryGeneratedColumn,
-//     OneToMany,
-//   } from 'typeorm/browser';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    OneToMany,
+  } from 'typeorm/browser';
+import { Task } from './Tasks';
 
-// import { Todo } from '../../../types';
+// import { Task, Todo } from '../../../types';
   
-//   @Entity('todo')
-//   export class Author {
-//     @PrimaryGeneratedColumn()
-//     id: number;
+  @Entity('Todo')
+  export class Todo {
+    @PrimaryGeneratedColumn()
+    id: string;
   
-//     @Column()
-//     name: string;
+    @Column()
+    title: string;
+
+    @Column()
+    color: string;
+
+    @Column()
+    remaining: number;
+
+
+    @Column()
+    completed: number;
   
-//     @Column({nullable: true})
-//     birthdate: string;
-  
-//     @OneToMany((type: any) => Todo, (todo) => todo.id)
-//     posts: Todo[];
-//   }
+    @OneToMany((type: any) => Task, (tasks) => tasks.todo)
+    tasks: Task[];
+  }
